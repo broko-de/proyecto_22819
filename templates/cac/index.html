@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio CAC</title>
+</head>
+<body>
+    <h1>{{ titulo_nombre }}</h1>
+    <p>{{ parametros }}</p>    
+    <p>{{ hoy|date:"Y-m-d H:i:s"}}</p>
+    
+    {% if cursos|length > 0 %}
+        <ul>
+            {% for curso in cursos %}
+                <li>
+                    {{ curso.nombre }} - {{ curso.categoria }}
+                    <p>{{ curso.descripcion }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No hay cursos disponibles</p>
+    {% endif %}
+    
+    
+
+</body>
+</html>
