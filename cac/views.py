@@ -41,7 +41,6 @@ def index(request):
                                     'parametros':parameters_get,
                                     'hoy': datetime.now})
 
-
 def quienes_somos(request):
     #return redirect('saludar_por_defecto')
     #return redirect(reverse('saludar', kwargs={'nombre':'Juliana'}))
@@ -49,6 +48,30 @@ def quienes_somos(request):
     context = {'titulo':'Codo a Codo - Quienes Somos'}
     return HttpResponse(template.render(context,request))
     
+def ver_proyectos(request,anio=2022,mes=1):
+    proyectos = []
+    return render(request,'cac/proyectos.html',{'proyectos':proyectos})
+
+def ver_cursos(request):
+    listado_cursos = [
+        {
+            'nombre':'Fullstack Java',
+            'descripcion':'Curso de Fullstack',
+            'categoria':'Programación'
+        },
+        {
+            'nombre':'Diseño UX/IU',
+            'descripcion':'🎨',
+            'categoria':'Diseño'
+        },
+        {
+            'nombre':'Big Data',
+            'descripcion':'test',
+            'categoria':'Analisis de Datos'
+        },
+    ]
+    return render(request,'cac/cursos.html',{'cursos':listado_cursos})
+
 
 # Create your views here.
 def hola_mundo(request):
@@ -58,12 +81,6 @@ def saludar(request,nombre='Pepe'):
     return HttpResponse(f"""
         <h1>Hola Mundo Django - {nombre}</h1>
         <p>Estoy haciendo mi primera prueba</p>
-    """)
-
-def ver_proyectos(request,anio,mes=1):
-    return HttpResponse(f"""
-        <h1>Proyectos del  - {mes}/{anio}</h1>
-        <p>Listado de proyectos</p>
     """)
 
 def ver_proyectos_2022_07(request):
