@@ -8,15 +8,6 @@ from django.urls import reverse
 from django.template import loader
 
 def index(request):
-    if(request.method=='GET'):
-        titulo = 'Titulo cuando se accede por GET - modificado'
-    else:
-        titulo = f'Titulo cuando accedo por otro metodo {request.method}'
-    parameters_get = request.GET.get('otro')
-    # return HttpResponse(f"""
-    #     <h1>{titulo}</h1>
-    #     <p>{parameters_get}</p>
-    # """)
     listado_cursos = [
         {
             'nombre':'Fullstack Java',
@@ -35,22 +26,18 @@ def index(request):
         },
     ]
 
-    return render(request,'cac/index.html',{
-                                    'titulo_nombre':titulo,
-                                    'cursos':listado_cursos,
-                                    'parametros':parameters_get,
-                                    'hoy': datetime.now})
+    return render(request,'cac/publica/index.html',{'cursos':listado_cursos,})
 
 def quienes_somos(request):
     #return redirect('saludar_por_defecto')
     #return redirect(reverse('saludar', kwargs={'nombre':'Juliana'}))
-    template = loader.get_template('cac/quienes_somos.html')
+    template = loader.get_template('cac/publica/quienes_somos.html')
     context = {'titulo':'Codo a Codo - Quienes Somos'}
     return HttpResponse(template.render(context,request))
     
 def ver_proyectos(request,anio=2022,mes=1):
     proyectos = []
-    return render(request,'cac/proyectos.html',{'proyectos':proyectos})
+    return render(request,'cac/publica/proyectos.html',{'proyectos':proyectos})
 
 def ver_cursos(request):
     listado_cursos = [
@@ -70,7 +57,11 @@ def ver_cursos(request):
             'categoria':'Analisis de Datos'
         },
     ]
-    return render(request,'cac/cursos.html',{'cursos':listado_cursos})
+    return render(request,'cac/publica/cursos.html',{'cursos':listado_cursos})
+
+def index_administracion(request):
+    variable = 'test variable'
+    return render(request,'cac/administracion/index_administracion.html',{'variable':variable})
 
 
 # Create your views here.
