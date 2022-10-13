@@ -7,6 +7,8 @@ from django.urls import reverse
 
 from django.template import loader
 
+from cac.forms import ContactoForm
+
 def index(request):
     listado_cursos = [
         {
@@ -25,8 +27,15 @@ def index(request):
             'categoria':'Analisis de Datos'
         },
     ]
+    
+    if(request.method == 'POST'):
+        contacto_form = ContactoForm(request.POST)
+        #deberia validar y realizar alguna accion        
+    else:
+        contacto_form = ContactoForm()
 
-    return render(request,'cac/publica/index.html',{'cursos':listado_cursos,})
+    return render(request,'cac/publica/index.html',
+                {'cursos':listado_cursos,'contacto_form':contacto_form})
 
 def quienes_somos(request):
     #return redirect('saludar_por_defecto')

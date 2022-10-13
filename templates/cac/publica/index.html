@@ -69,13 +69,33 @@
     
         <!--Grid column-->
             <div class="col-md-6 mb-md-0 mb-6">
-                <form id="contact-form" name="contact-form" action="#" method="POST">
-                {% csrf_token %}
+                <form id="contact-form" name="contact-form" action="{% url 'inicio' %}" method="POST">
+                    {% csrf_token %}
+
+                    {% comment %} {{ contacto_form }} {% endcomment %}
+
+                    {% comment %} <table>
+                        {{ contacto_form.as_table }}
+                    </table> {% endcomment %}
+
+                    {% comment %} <ul>
+                        {{ contacto_form.as_ul }}
+                    </ul> {% endcomment %}
+                    {% comment %} {{ contacto_form.as_p }} {% endcomment %}
+
+                    {% for field in contacto_form %}
+                        <div class="campo">
+                            <div class="tag">{{ field.label_tag }}</div>
+                            <div class="input">
+                                {{ field }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                    
+                    <div class="text-center text-md-left mt-3">
+                        <button class="btn btn-primary" type="submit">Enviar</button>
+                    </div>
                 </form>
-        
-                <div class="text-center text-md-left mt-3">
-                    <button class="btn btn-primary" onclick="document.getElementById('contact-form').submit();">Enviar</button>
-                </div>
                 <div class="status"></div>
             </div>
         <!--Grid column-->
