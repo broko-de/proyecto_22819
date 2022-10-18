@@ -30,7 +30,10 @@ def index(request):
     
     if(request.method == 'POST'):
         contacto_form = ContactoForm(request.POST)
-        #deberia validar y realizar alguna accion        
+        if(contacto_form.is_valid()):
+            
+            pass
+            #deberia validar y realizar alguna accion        
     else:
         contacto_form = ContactoForm()
 

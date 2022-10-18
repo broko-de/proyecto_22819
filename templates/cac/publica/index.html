@@ -82,15 +82,17 @@
                         {{ contacto_form.as_ul }}
                     </ul> {% endcomment %}
                     {% comment %} {{ contacto_form.as_p }} {% endcomment %}
-
-                    {% for field in contacto_form %}
-                        <div class="campo">
-                            <div class="tag">{{ field.label_tag }}</div>
-                            <div class="input">
-                                {{ field }}
+                    <div class="row">
+                        {% for campo in contacto_form %}
+                            <div class="col-md-12">
+                                <div class="md-form mb-0">
+                                    <label for="">{{campo.label}}</label>
+                                    {{campo}}
+                                </div>
+                                <div>{{campo.errors}}</div>
                             </div>
-                        </div>
-                    {% endfor %}
+                        {% endfor %}
+                    </div>
                     
                     <div class="text-center text-md-left mt-3">
                         <button class="btn btn-primary" type="submit">Enviar</button>
