@@ -9,6 +9,8 @@ from django.template import loader
 
 from cac.forms import ContactoForm
 
+from django.contrib import messages
+
 def index(request):
     listado_cursos = [
         {
@@ -31,9 +33,13 @@ def index(request):
     if(request.method == 'POST'):
         contacto_form = ContactoForm(request.POST)
         if(contacto_form.is_valid()):
-            
-            pass
-            #deberia validar y realizar alguna accion        
+            #enviar un email al administrado con los datos
+            #guardar los datos en la base
+            messages.success(request,'Muchas gracias por contactarte, te esteremos respondiendo en breve.')
+            messages.info(request,'Otro mensajito')
+            #deberia validar y realizar alguna accion
+        else:
+            messages.warning(request,'Por favor revisa los errores')
     else:
         contacto_form = ContactoForm()
 

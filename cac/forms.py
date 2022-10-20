@@ -4,12 +4,19 @@ from django.forms import ValidationError
 def solo_caracteres(value):
     if any(char.isdigit() for char in value ):
         raise ValidationError('El nombre no puede contener números. %(valor)s',
-                            code='Error1',
                             params={'valor':value})
         #raise ValidationError('El nombre no puede contener números.')
 
 
 class ContactoForm(forms.Form):
+
+    TIPO_CONSULTA = (
+        ('','-Seleccione-'),
+        (1,'Inscripciones'),
+        (2,'Soporte Aula Virtual'),
+        (3,'Ser docente'),
+    )
+
     nombre = forms.CharField(
             label='Nombre',
             required=False,
@@ -19,6 +26,9 @@ class ContactoForm(forms.Form):
     email = forms.EmailField(
             label='Email',
             max_length=50,
+            error_messages={
+                    'required': 'Por favor completa el campo',                    
+                },
             widget= forms.TextInput(attrs={'class':'form-control','type':'email'})
             )
     asunto = forms.CharField(
@@ -36,6 +46,13 @@ class ContactoForm(forms.Form):
         widget=forms.CheckboxInput(attrs={'class':'form-check-input','value':1})
     )
 
+    tipo_consulta = forms.ChoiceField(
+        label='Tipo de consulta',
+        choices=TIPO_CONSULTA,
+        initial='2',
+        widget=forms.Select(attrs={'class':'form-control'})
+    )
+    
     def clean_mensaje(self):
         data = self.cleaned_data['mensaje']
         if len(data) < 10:
@@ -44,12 +61,10 @@ class ContactoForm(forms.Form):
     
     def clean(self):
         cleaned_data = super().clean()
-        mensaje = cleaned_data.get("mensaje")
         asunto = cleaned_data.get("asunto")
+        suscripcion = cleaned_data.get("suscripcion")
 
-        if "ayuda" not in asunto or "ayuda" not in mensaje:
-            msg = "Debe agregar la palabara 'ayuda' en el campo."
+        if suscripcion and asunto and "suscripcion" not in asunto:
+            msg = "Debe agregar la palabara 'suscripcion' al asunto."
             self.add_error('asunto', msg)
-            self.add_error('mensaje', msg)
-
 
