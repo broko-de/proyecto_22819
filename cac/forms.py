@@ -68,3 +68,12 @@ class ContactoForm(forms.Form):
             msg = "Debe agregar la palabara 'suscripcion' al asunto."
             self.add_error('asunto', msg)
 
+
+class CategoriaForm(forms.Form):
+
+    nombre = forms.CharField(
+            label='Nombre', 
+            max_length=50,
+            validators=(solo_caracteres,),
+            widget=forms.TextInput(attrs={'class':'form-control'})
+        )

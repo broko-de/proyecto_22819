@@ -7,6 +7,11 @@ urlpatterns = [
     path('proyectos/',views.ver_proyectos, name='proyectos'),
     path('cursos/',views.ver_cursos, name='cursos'),
     path('administracion', views.index_administracion,name='inicio_administracion'),
+
+    path('administracion/categorias', views.categorias_index,name='categorias_index'),
+    path('administracion/categorias/nuevo', views.categorias_nuevo,name='categorias_nuevo'),
+    path('administracion/categorias/eliminar/<int:id_categoria>', views.categorias_eliminar,name='categorias_eliminar'),
+
     path('api_proyectos/',views.api_proyectos,name="api_proyectos"),
     
     path('hola_mundo',views.hola_mundo),
