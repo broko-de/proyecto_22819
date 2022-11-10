@@ -1,14 +1,15 @@
 {% for campo in formulario %}
     <div class="form-group">
         <label for="">{{campo.label}}</label>
-        <input 
+        {% comment %} <input 
             type="{{campo.field.widget.input_type}}" 
             name="{{campo.name}}" 
             id="{{campo.name}}"
             class="form-control"
             placeholder="Ingrese {{campo.name}}"
             value="{{ campo.value | default:'' }}"
-        >
+        > {% endcomment %}
+        {{campo}}
     </div>
     <div>{{campo.errors}}</div>
 {% endfor %}

@@ -48,12 +48,12 @@
                 </tr>
             </thead>
             <tbody>
-                {% for categoria in categorias %}
+                {% for categoria in lista_categorias %}
                     <tr>
                         <td>{{categoria.id}}</td>
                         <td>{{categoria.nombre}}</td>
                         <td>
-                            {% comment %} <a href="{% url 'categorias_editar' categoria.id %}" title="Editar" class="btn btn-warning"><i class="fas fa-pencil"></i></a> {% endcomment %}
+                            <a href="{% url 'categorias_editar' categoria.id %}" title="Editar" class="btn btn-warning"><i class="fas fa-pencil"></i></a>
                             <a href="{% url 'categorias_eliminar' categoria.id %}" title="Eliminar" class="btn btn-danger"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>

@@ -13,7 +13,7 @@
 <div class="card">
     <div class="card-header">Creacion de categoría</div>
     <div class="card-body">
-        <form action="{% url 'categorias_nuevo' %}" method="post">
+        <form action="{% url 'categorias_nuevo' %}" method="post" novalidate>
             {% csrf_token %}
             {% include 'cac/administracion/categorias/form.html' %}
         </form>

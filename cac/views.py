@@ -7,11 +7,14 @@ from django.urls import reverse
 
 from django.template import loader
 
-from cac.forms import ContactoForm, CategoriaForm
+from cac.forms import ContactoForm, CategoriaForm, CategoriaFormValidado
 
 from django.contrib import messages
 
 from cac.models import Categoria
+
+from django.views.generic import ListView
+from django.views import View
 
 def index(request):
     listado_cursos = [
@@ -108,15 +111,30 @@ def categorias_index(request):
 
 def categorias_nuevo(request):
     if(request.method=='POST'):
-        formulario = CategoriaForm(request.POST)
+        formulario = CategoriaFormValidado(request.POST)
         if formulario.is_valid():
-            nombre = formulario.cleaned_data['nombre']
-            nueva_categoria = Categoria(nombre=nombre)
-            nueva_categoria.save()
+            formulario.save()
             return redirect('categorias_index')
     else:
-        formulario = CategoriaForm()
+        formulario = CategoriaFormValidado()
     return render(request,'cac/administracion/categorias/nuevo.html',{'formulario':formulario})
+
+
+def categorias_editar(request,id_categoria):
+    try:
+        categoria = Categoria.objects.get(pk=id_categoria)
+    except Categoria.DoesNotExist:
+        return render(request,'cac/administracion/404_admin.html')
+
+    if(request.method=='POST'):
+        formulario = CategoriaFormValidado(request.POST,instance=categoria)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect('categorias_index')
+    else:
+        formulario = CategoriaFormValidado(instance=categoria)
+    return render(request,'cac/administracion/categorias/editar.html',{'formulario':formulario})
+
 
 def categorias_eliminar(request,id_categoria):
     try:
@@ -125,6 +143,28 @@ def categorias_eliminar(request,id_categoria):
         return render(request,'cac/administracion/404_admin.html')
     categoria.soft_delete()
     return redirect('categorias_index')
+
+class CategoriaListView(ListView):
+    model = Categoria
+    context_object_name = 'lista_categorias'
+    template_name= 'cac/administracion/categorias/index.html'
+    queryset= Categoria.objects.filter(baja=False)
+    ordering = ['nombre']
+
+class CategoriaView(View):
+    form_class = CategoriaForm
+    template_name = 'cac/administracion/categorias/nuevo.html'
+
+    def get(self, request,*args, **kwargs):
+        form = self.form_class()
+        return render(request,self.template_name,{'formulario':form})
+    
+    def post(self,request,*args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('categorias_index')
+        return render(request,self.template_name,{'formulario':form})
 
 # Create your views here.
 def hola_mundo(request):

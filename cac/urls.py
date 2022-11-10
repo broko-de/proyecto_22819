@@ -6,10 +6,12 @@ urlpatterns = [
     path('quienessomos/',views.quienes_somos,name='quienes_somos'),
     path('proyectos/',views.ver_proyectos, name='proyectos'),
     path('cursos/',views.ver_cursos, name='cursos'),
-    path('administracion', views.index_administracion,name='inicio_administracion'),
+    path('administracion/', views.index_administracion,name='inicio_administracion'),
 
-    path('administracion/categorias', views.categorias_index,name='categorias_index'),
-    path('administracion/categorias/nuevo', views.categorias_nuevo,name='categorias_nuevo'),
+    path('administracion/categorias', views.CategoriaListView.as_view(),name='categorias_index'),
+    # path('administracion/categorias/nuevo', views.categorias_nuevo,name='categorias_nuevo'),
+    path('administracion/categorias/nuevo', views.CategoriaView.as_view(),name='categorias_nuevo'),
+    path('administracion/categorias/editar/<int:id_categoria>', views.categorias_editar,name='categorias_editar'),
     path('administracion/categorias/eliminar/<int:id_categoria>', views.categorias_eliminar,name='categorias_eliminar'),
 
     path('api_proyectos/',views.api_proyectos,name="api_proyectos"),
