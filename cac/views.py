@@ -17,6 +17,10 @@ from django.contrib import messages
 from django.views.generic import ListView
 from django.views import View
 
+
+from django.core.mail import send_mail
+from django.conf import settings
+
 """
     Vistas de la parte pública
 """
@@ -46,6 +50,21 @@ def index(request):
             #guardar los datos en la base
             messages.success(request,'Muchas gracias por contactarte, te esteremos respondiendo en breve.')
             messages.info(request,'Otro mensajito')
+            mensaje=f"De: {contacto_form.cleaned_data['nombre']} <{contacto_form.cleaned_data['email']}>\n Asunto: {contacto_form.cleaned_data['asunto']}\n Mensaje: {contacto_form.cleaned_data['mensaje']}"
+            mensaje_html=f"""
+                <p>De: {contacto_form.cleaned_data['nombre']} <a href="mailto:{contacto_form.cleaned_data['email']}">{contacto_form.cleaned_data['email']}</a></p>
+                <p>Asunto:  {contacto_form.cleaned_data['asunto']}</p>
+                <p>Mensaje: {contacto_form.cleaned_data['mensaje']}</p>
+            """
+            asunto="CONSULTA DESDE LA PAGINA - "+contacto_form.cleaned_data['asunto']
+            send_mail(
+                asunto,
+                mensaje,
+                settings.EMAIL_HOST_USER,
+                [settings.RECIPIENT_ADDRESS],
+                fail_silently=False,
+                html_message=mensaje_html
+            )
             #deberia validar y realizar alguna accion
         else:
             messages.warning(request,'Por favor revisa los errores')
@@ -180,7 +199,7 @@ def cursos_editar(request,id_curso):
     if formulario.is_valid():
         formulario.save()
         messages.success(request,'Se ha editado el curso correctamente')          
-        return redirect('curso_index')
+        return redirect('cursos_index')
     return render(request,'cac/administracion/cursos/editar.html',{'formulario':formulario})
 
 def cursos_eliminar(request,id_curso):

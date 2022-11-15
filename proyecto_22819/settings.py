@@ -149,3 +149,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 #constante para poder almacenar los mensaje entre solicitudes en cookies
 #https://docs.djangoproject.com/en/3.2/ref/contrib/messages/#configuring-the-message-engine
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
+
+#Configuracion para el envio de email por medio de GMAIL
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'CUENTAGOOGLE'
+# Clave generada desde la configuracion de Google
+EMAIL_HOST_PASSWORD = 'CONTRASEÑA DE APLICACION DE CUENTA GOOGLE' 
+RECIPIENT_ADDRESS = 'test@email.com'
