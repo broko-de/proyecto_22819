@@ -1,20 +1,32 @@
 from django.db import models
+from django.utils.text import slugify 
+
+#ONE TO ONE
+# class Persona(models.Model):
+#     nombre = models.CharField(max_length=100,verbose_name='Nombre')
+#     apellido = models.CharField(max_length=150,verbose_name='Apellido')
+#     email = models.EmailField(max_length=150,null=True)
+#     dni = models.IntegerField(verbose_name="DNI")
+
+# class Estudiante(models.Model):
+    # persona = models.OneToOneField(Persona,on_delete=models.CASCADE,primary_key=True)
+    # matricula = models.CharField(max_length=10,verbose_name='Matricula')
 
 #Modelo Abtracto
-class PersonaAbs(models.Model):
-    nombre = models.CharField(max_length=100,verbose_name='Nombre')
-    apellido = models.CharField(max_length=150,verbose_name='Apellido')
-    email = models.EmailField(max_length=150,null=True)
-    dni = models.IntegerField(verbose_name="DNI")
+# class PersonaAbs(models.Model):
+#     nombre = models.CharField(max_length=100,verbose_name='Nombre')
+#     apellido = models.CharField(max_length=150,verbose_name='Apellido')
+#     email = models.EmailField(max_length=150,null=True)
+#     dni = models.IntegerField(verbose_name="DNI")
 
-    class Meta:
-        abstract=True
+#     class Meta:
+#         abstract=True
 
-class EstudianteAbs(PersonaAbs):
-    matricula = models.CharField(max_length=10,verbose_name='Matricula')
+# class EstudianteAbs(PersonaAbs):
+#     matricula = models.CharField(max_length=10,verbose_name='Matricula')
 
-class DocenteAbs(PersonaAbs):
-    legajo = models.CharField(max_length=10,verbose_name='Legajo')
+# class DocenteAbs(PersonaAbs):
+#     legajo = models.CharField(max_length=10,verbose_name='Legajo')
 
 #HERENCIA
 class PersonaM(models.Model):
@@ -25,20 +37,21 @@ class PersonaM(models.Model):
 
 class EstudianteM(PersonaM):
     matricula_m = models.CharField(max_length=10,verbose_name='Matricula')
+    baja = models.BooleanField(default=0)
+
+    def __str__(self):
+        return f"{self.nombre_m} {self.apellido_m} ({self.matricula_m})"
+    
+    def soft_delete(self):
+        self.baja=True
+        super().save()
+    
+    def restore(self):
+        self.baja=False
+        super().save()
 
 class DocenteM(PersonaM):
     legajo_m = models.CharField(max_length=10,verbose_name='Legajo')
-
-class Persona(models.Model):
-    nombre = models.CharField(max_length=100,verbose_name='Nombre')
-    apellido = models.CharField(max_length=150,verbose_name='Apellido')
-    email = models.EmailField(max_length=150,null=True)
-    dni = models.IntegerField(verbose_name="DNI")
-
-# Create your models here.
-class Estudiante(models.Model):
-    persona = models.OneToOneField(Persona,on_delete=models.CASCADE,primary_key=True)
-    matricula = models.CharField(max_length=10,verbose_name='Matricula')
 
 class Categoria(models.Model):
     nombre = models.CharField(max_length=50,verbose_name='Nombre')
@@ -58,15 +71,17 @@ class Categoria(models.Model):
 class Curso(models.Model):
     nombre = models.CharField(max_length=100,verbose_name='Nombre')
     descripcion = models.TextField(null=True,verbose_name='Descripcion')
-    #fecha_inicio = models.DateField(verbose_name='Fecha de Inicio')
-    #portada = models.ImageField(upload_to='imagenes/',null=True,verbose_name='Portada')
-    #MANY-TO-ONE / ONE-TO-MANY
-    categoria = models.ForeignKey(Categoria,on_delete=models.CASCADE)
-    #estudiantes = models.ManyToManyField(Estudiante) # crearme una tabla intermedia automatica
-    estudiantes = models.ManyToManyField(Estudiante,through='Inscripcion')
+    fecha_inicio = models.DateField(verbose_name='Fecha de inicio',null=True,default=None)
+    portada = models.ImageField(upload_to='imagenes/',null=True,verbose_name='Portada')
+    categoria = models.ForeignKey(Categoria,on_delete=models.CASCADE) #relacion mucho a uno    
+    estudiantes = models.ManyToManyField(EstudianteM,through='Inscripcion') #related_name="cursos"
 
     def __str__(self):
         return self.nombre
+    
+    def delete(self,using=None,keep_parents=False):
+        self.portada.storage.delete(self.portada.name) #borrado fisico
+        super().delete()
         
 class Inscripcion(models.Model):
     
@@ -76,9 +91,31 @@ class Inscripcion(models.Model):
         (3,'Egresado'),
     ]
     fecha_creacion = models.DateField(verbose_name='Fecha de creacion')
-    estudiante = models.ForeignKey(Estudiante, on_delete=models.CASCADE)
+    estudiante = models.ForeignKey(EstudianteM, on_delete=models.CASCADE)
     curso = models.ForeignKey(Curso,on_delete=models.CASCADE)
     estado = models.IntegerField(choices=ESTADOS,default=1)
 
     def __str__(self):
-        return self.id
+        return self.fecha_creacion
+
+class Proyecto(models.Model):
+    nombre = models.CharField(max_length=100,verbose_name='Nombre')
+    # campo del tipo slug
+    nombre_slug = models.SlugField(max_length=100,verbose_name='Nombre Slug')
+    anio = models.IntegerField(verbose_name='Año')
+    descripcion = models.TextField(null=True,verbose_name='Descripcion')
+    url = models.URLField(max_length=100,verbose_name='Url')
+    portada = models.ImageField(upload_to='imagenes/proyecto/',null=True,verbose_name='Portada')    
+    estudiante = models.ForeignKey(EstudianteM,on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.nombre
+
+    """ Sobreescribo el metodo save del modelo"""
+    def save(self, *args, **kwargs):
+        self.nombre_slug = slugify(self.nombre)
+        super().save(*args, **kwargs)
+
+    def delete(self,using=None,keep_parents=False):
+        self.portada.storage.delete(self.portada.name) #borrado fisico
+        super().delete()

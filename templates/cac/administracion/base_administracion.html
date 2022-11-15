@@ -42,7 +42,7 @@
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading">Administracion</div>
-                        <a class="nav-link" href="">
+                        <a class="nav-link" href="{% url 'estudiantes_index' %}">
                             <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                             Estudiantes
                         </a>
@@ -53,11 +53,14 @@
                         </a>
                         <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="">Categorias</a>
-                                <a class="nav-link" href="">Cursos</a>
+                                <a class="nav-link" href="{% url 'categorias_index' %}">Categorias</a>
+                                <a class="nav-link" href="{% url 'cursos_index' %}">Cursos</a>
                             </nav>
                         </div>
-                       
+                        <a class="nav-link" href="{% url 'proyectos_index' %}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                            Proyectos
+                        </a>
                         <a class="nav-link" href="{% url 'inicio' %}">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-reply"></i></div>
                             Ir sitio principal
