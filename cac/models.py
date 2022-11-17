@@ -40,7 +40,7 @@ class EstudianteM(PersonaM):
     baja = models.BooleanField(default=0)
 
     def __str__(self):
-        return f"{self.nombre_m} {self.apellido_m} ({self.matricula_m})"
+        return f"{self.matricula_m} - {self.nombre_m} {self.apellido_m}"
     
     def soft_delete(self):
         self.baja=True
@@ -49,6 +49,9 @@ class EstudianteM(PersonaM):
     def restore(self):
         self.baja=False
         super().save()
+    
+    class Meta():
+        verbose_name_plural = 'Estudiantes'
 
 class DocenteM(PersonaM):
     legajo_m = models.CharField(max_length=10,verbose_name='Legajo')
