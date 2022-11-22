@@ -85,6 +85,21 @@ class Curso(models.Model):
     def delete(self,using=None,keep_parents=False):
         self.portada.storage.delete(self.portada.name) #borrado fisico
         super().delete()
+
+class CursoM(models.Model):
+    nombre = models.CharField(max_length=100,verbose_name='Nombre')
+    descripcion = models.TextField(null=True,verbose_name='Descripcion')
+    fecha_inicio = models.DateField(verbose_name='Fecha de inicio',null=True,default=None)
+    portada = models.ImageField(upload_to='imagenes/',null=True,verbose_name='Portada')
+    categoria = models.ForeignKey(Categoria,on_delete=models.CASCADE) #relacion mucho a uno    
+    estudiantes = models.ManyToManyField(EstudianteM) #related_name="cursos"
+
+    def __str__(self):
+        return self.nombre
+    
+    def delete(self,using=None,keep_parents=False):
+        self.portada.storage.delete(self.portada.name) #borrado fisico
+        super().delete()
         
 class Inscripcion(models.Model):
     
@@ -99,7 +114,7 @@ class Inscripcion(models.Model):
     estado = models.IntegerField(choices=ESTADOS,default=1)
 
     def __str__(self):
-        return self.fecha_creacion
+        return self.estudiante.nombre_m
 
 class Proyecto(models.Model):
     nombre = models.CharField(max_length=100,verbose_name='Nombre')
