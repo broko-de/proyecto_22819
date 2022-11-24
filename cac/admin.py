@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from cac.models import EstudianteM, Proyecto, CursoM, Categoria, Curso, Inscripcion
 from django.contrib.auth.models import User, Group
+from django.contrib.auth.admin import UserAdmin, GroupAdmin
 
 class CacAdminSite(admin.AdminSite):
     site_header = 'Adminsitración CAC'
@@ -44,8 +45,8 @@ class CategoriaAdmin(admin.ModelAdmin):
 mi_admin = CacAdminSite(name='cacadmin')
 mi_admin.register(Proyecto)
 mi_admin.register(EstudianteM,EstudianteMAdmin)
-mi_admin.register(User)
-mi_admin.register(Group)
+mi_admin.register(User,UserAdmin)
+mi_admin.register(Group,GroupAdmin)
 mi_admin.register(Categoria, CategoriaAdmin)
 mi_admin.register(CursoM,CursoMAdmin)
 mi_admin.register(Curso)
