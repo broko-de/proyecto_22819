@@ -42,15 +42,16 @@
     
                 <!-- Email input -->
                 <div class="form-outline mb-4">
-                    {{ form.username }}
                     <br>
+                <input type="email" id="{{ form.username.auto_id }}" name="{{ form.username.name }}" class="form-control form-control-lg"
+                    placeholder="Ingresa el nombre de usuario" value="{{ form.username.value | default:'' }}" />
                 <label class="form-label" for="form3Example3">Nombre de usuario</label>
                 </div>
     
                 <!-- Password input -->
                 <div class="form-outline mb-3">
-                    {{ form.password }}
-                    <br>
+                    <input type="password" id="{{ form.password.auto_id }}" name="{{ form.password.name }}" class="form-control form-control-lg"
+                        placeholder="Ingresa la contraseña" value="{{ form.password.value | default:'' }}" />
                     <label class="form-label" for="form3Example4">Contraseña</label>
                 </div>
     
@@ -68,7 +69,7 @@
                 <div class="text-center text-lg-start mt-4 pt-2">
                 <button type="submit" class="btn btn-primary btn-lg"
                     style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
-                <p class="small fw-bold mt-2 pt-1 mb-0">No tienes una cuenta? <a href=""
+                <p class="small fw-bold mt-2 pt-1 mb-0">No tienes una cuenta? <a href="{% url 'registrarse' %}"
                     class="link-danger">Registrate</a></p>
                 </div>
             </form>
