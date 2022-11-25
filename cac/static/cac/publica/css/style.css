@@ -46,3 +46,8 @@ ul.lista-institucional {
     padding-left: 64px;
     list-style: none;
 }
+
+.error{
+    color: red;
+    font-size: 12px;
+}
