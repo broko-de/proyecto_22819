@@ -1,4 +1,4 @@
-from django.urls import path, re_path
+from django.urls import path, re_path, include
 from . import views
 
 from django.conf.urls.static import static
@@ -37,10 +37,17 @@ urlpatterns = [
     path('administracion/proyectos/eliminar/<int:id_proyecto>', views.proyectos_eliminar,name='proyectos_eliminar'),
 
 
-    path('cuentas/login', views.cac_login,name='login'),
-    path('cuentas/logout/',
-         auth_views.LogoutView.as_view(template_name='cac/publica/index.html'), name='logout'),
+    # path('cuentas/login/', views.cac_login,name='login'),
+    # path('cuentas/login/', views.CacLoginView.as_view(),name='login'),
+    # path('cuentas/logout/',
+        #  auth_views.LogoutView.as_view(template_name='cac/publica/index.html'), name='logout'),
     path('cuentas/registrarse', views.cac_registrarse, name='registrarse'),
+
+    path('account/login/',auth_views.LoginView.as_view(template_name='cac/publica/login.html')),
+    # path('account/logout/',
+    #      auth_views.LogoutView.as_view(template_name='cac/publica/logout.html'), name='logout'),
+    path('account/password_change/',auth_views.PasswordChangeView.as_view(success_url='/')),
+    path('account/',include('django.contrib.auth.urls')),
 
 
     path('hola_mundo',views.hola_mundo),

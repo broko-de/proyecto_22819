@@ -159,3 +159,8 @@ EMAIL_HOST_USER = 'CUENTAGOOGLE'
 # Clave generada desde la configuracion de Google
 EMAIL_HOST_PASSWORD = 'CONTRASEÑA DE APLICACION DE CUENTA GOOGLE' 
 RECIPIENT_ADDRESS = 'test@email.com'
+
+LOGIN_URL = '/cuentas/login/'
+
+LOGIN_REDIRECT_URL = 'inicio'
+LOGOUT_REDIRECT_URL = 'inicio'
