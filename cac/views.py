@@ -27,6 +27,8 @@ from django.contrib.auth.forms import AuthenticationForm
 
 from django.contrib.auth.decorators import login_required
 
+# from django.contrib.auth.views import LoginView
+
 """
     Vistas de la parte pública
 """
@@ -380,3 +382,7 @@ def cursos(request,nombre):
     return HttpResponse(f"""
         <h2>{nombre}</h2>
     """)
+
+# class CacLoginView(LoginView):
+#     redirect_field_name = ''
+#     template_name='cac/publica/login.html'
