@@ -163,4 +163,4 @@ RECIPIENT_ADDRESS = 'test@email.com'
 LOGIN_URL = '/cuentas/login/'
 
 LOGIN_REDIRECT_URL = 'inicio'
-LOGOUT_REDIRECT_URL = 'inicio'
+# LOGOUT_REDIRECT_URL = 'inicio'
