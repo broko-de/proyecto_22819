@@ -1,8 +1,8 @@
 from django.contrib import admin
 
-from cac.models import EstudianteM, Proyecto, CursoM, Categoria, Curso, Inscripcion
+from cac.models import EstudianteM, Proyecto, CursoM, Categoria, Curso, Inscripcion, Perfil
 from django.contrib.auth.models import User, Group
-from django.contrib.auth.admin import UserAdmin, GroupAdmin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin, GroupAdmin
 
 class CacAdminSite(admin.AdminSite):
     site_header = 'Adminsitración CAC'
@@ -18,6 +18,8 @@ class EstudianteMAdmin(admin.ModelAdmin):
     list_editable = ('nombre_m',)
     search_fields = ['apellido_m','nombre_m']
     list_filter = ('dni_m','apellido_m')
+
+
 
 #admin.site.register(EstudianteM,EstudianteMAdmin)
 class CursoMAdmin(admin.ModelAdmin):
@@ -41,6 +43,15 @@ class CategoriaAdmin(admin.ModelAdmin):
     #     query = super(CategoriaAdmin,self).get_queryset(request)
     #     filtered_query = query.filter(baja=False)
     #     return filtered_query
+
+#SE AGREGA MODELO DE PERFIL PARA QUE SE CARGUE DESDE EL USER EN ADMIN DE DJANGO
+class PerfilInline(admin.StackedInline):
+    model = Perfil
+    can_delete= False
+    verbose_name_plural= 'Perfiles'
+
+class UserAdmin(BaseUserAdmin):
+    inlines = (PerfilInline,)
 
 mi_admin = CacAdminSite(name='cacadmin')
 mi_admin.register(Proyecto)

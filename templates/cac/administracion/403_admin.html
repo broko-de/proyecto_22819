@@ -6,9 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>404 Error </title>
+        <title>403 Error </title>
         {% load static %}
-        <link href="{% static '/cac/administracion/css/styles.css'%}" rel="stylesheet" />
+        <link href="{% static '/cac/administracion/libs/css/styles.css'%}" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
     </head>
     <body>
@@ -21,10 +21,11 @@
                                 <div class="text-center mt-4">
                                     {% load static %}
                                     <img class="mb-4 img-error" src="{% static '/cac/administracion/assets/img/error-404-monochrome.svg'%}" />
-                                    <p class="lead">This requested URL was not found on this server.</p>
-                                    <a href="{% url 'inicio_admin' %}">
+                                    <h1>403 Forbidden</h1>
+                                    <p class="lead">No tienes permiso para acceder a este recurso.</p>
+                                    <a href="{% url 'inicio' %}">
                                         <i class="fas fa-arrow-left me-1"></i>
-                                        Return to Dashboard
+                                        Volver al inicio
                                     </a>
                                 </div>
                             </div>
@@ -49,6 +50,6 @@
         </div>
         {% load static %}
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="{% static '/cac/administracion/js/scripts.js'%}"></script>
+        <script src="{% static '/cac/administracion/libs/js/scripts.js'%}"></script>
     </body>
 </html>

@@ -43,11 +43,11 @@ urlpatterns = [
         #  auth_views.LogoutView.as_view(template_name='cac/publica/index.html'), name='logout'),
     path('cuentas/registrarse', views.cac_registrarse, name='registrarse'),
 
-    path('account/login/',auth_views.LoginView.as_view(template_name='cac/publica/login.html')),
+    path('accounts/login/',auth_views.LoginView.as_view(template_name='cac/publica/login.html')),
     # path('account/logout/',
     #      auth_views.LogoutView.as_view(template_name='cac/publica/logout.html'), name='logout'),
-    path('account/password_change/',auth_views.PasswordChangeView.as_view(success_url='/')),
-    path('account/',include('django.contrib.auth.urls')),
+    path('accounts/password_change/',auth_views.PasswordChangeView.as_view(success_url='/')),
+    path('accounts/',include('django.contrib.auth.urls')),
 
 
     path('hola_mundo',views.hola_mundo),
