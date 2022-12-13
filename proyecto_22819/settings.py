@@ -79,12 +79,12 @@ WSGI_APPLICATION = 'proyecto_22819.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'cac_22819_3', 
-        'USER': 'postgres', 
-        'PASSWORD': 'Cac2022',
-        'HOST': '127.0.0.1', 
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'cac_22819', 
+        'USER': 'fliquintest', 
+        'PASSWORD': 'Cac2022.',
+        'HOST': 'fliquintest.mysql.pythonanywhere-services.com', 
+        'PORT': '3306',
     }
 }
 
